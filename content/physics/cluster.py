@@ -48,7 +48,7 @@ class Cluster:
         for particle in self.particles:
             particle.update_position(self.boundary, self.gravity, self.energy_loss)
 
-    def update_SPH(self):
+    def update_SHG(self):
         self.SHG = SpatialHashGrid(self.boundary, self.num_particles, sim.RADIUS)
 
         for particle in self.particles:

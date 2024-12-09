@@ -28,7 +28,7 @@ def main():
 
         ## main simulation ##
         if sim.USE_SHG:
-            cluster.update_SPH()
+            cluster.update_SHG()
         else:
             cluster.update()
         
