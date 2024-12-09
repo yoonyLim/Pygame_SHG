@@ -9,7 +9,7 @@ class SpatialHashGrid:
         self.boundary = boundary
         self.num_particles = num_particles
         self.particle_radius = particle_radius
-        self.average_distance = sqrt(self.boundary.right * self.boundary.bottom / self.num_particles / 2)
+        self.average_distance = sqrt(self.boundary.right * self.boundary.bottom / (self.num_particles / 2))
         self.dimension = max(self.average_distance, self.particle_radius)
         self.cells = {}
 
