@@ -11,28 +11,28 @@ class SpatialHashGrid:
         self.particle_radius = particle_radius
         self.average_distance = sqrt(self.boundary.right * self.boundary.bottom / (self.num_particles / 2))
         self.dimension = max(self.average_distance, self.particle_radius)
-        self.cells = {}
+        self.grids = {}
 
-    def calc_cell_idx(self, position: tuple[int, int]):
+    def get_hash(self, position: tuple[int, int]):
         return int(position[0] / self.dimension), int(position[1] / self.dimension)
     
     def add_particle(self, particle: Particle):
-        cell_idx = self.calc_cell_idx(particle.position)
+        grid_hash = self.get_hash(particle.position)
 
-        if cell_idx not in self.cells:
-            self.cells[cell_idx] = []
+        if grid_hash not in self.grids:
+            self.grids[grid_hash] = []
 
-        self.cells[cell_idx].append(particle)
+        self.grids[grid_hash].append(particle)
 
-    def get_nearby_cells(self, cell_idx: tuple[int, int]):
-        return [(cell_idx[0] + dx, cell_idx[1] + dy) for dx in range(-1, 2) for dy in range(-1, 2)]
+    def get_nearby_grids(self, grid_hash: tuple[int, int]):
+        return [(grid_hash[0] + dx, grid_hash[1] + dy) for dx in range(-1, 2) for dy in range(-1, 2)]
     
     def get_nearby_particles(self, particle: Particle):
-        cell_idx = self.calc_cell_idx(particle.position)
+        grid_hash = self.get_hash(particle.position)
         nearby_particles: List[Particle] = []
 
-        for nearby_cell in self.get_nearby_cells(cell_idx):
-            if nearby_cell in self.cells:
-                nearby_particles.extend([other_particle for other_particle in self.cells[nearby_cell] if other_particle != particle])
+        for nearby_grid in self.get_nearby_grids(grid_hash):
+            if nearby_grid in self.grids:
+                nearby_particles.extend([other_particle for other_particle in self.grids[nearby_grid] if other_particle != particle])
 
         return nearby_particles
